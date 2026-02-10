@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tính lãi suất nhanh</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #2563eb;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #1e40af;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 12px;
+      background: #eef2ff;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💰 Tính lãi suất</h2>
+
+    <label>Số tiền gốc (triệu VNĐ)</label>
+    <input type="number" id="principal" placeholder="VD: 15">
+
+    <label>Lãi suất (% / năm)</label>
+    <input type="number" id="rate" placeholder="VD: 15">
+
+    <label>Ngày bắt đầu</label>
+    <input type="date" id="startDate">
+
+    <label>Ngày kết thúc</label>
+    <input type="date" id="endDate">
+
+    <button onclick="calculate()">Tính lãi</button>
+
+    <div class="result" id="result" style="display:none"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      const principalInput = parseFloat(document.getElementById('principal').value);
+      const principal = principalInput * 1_000_000;
+      const rate = parseFloat(document.getElementById('rate').value) / 100;
+      const start = new Date(document.getElementById('startDate').value);
+      const end = new Date(document.getElementById('endDate').value);
+
+      if (!principal || !rate || !start || !end) {
+        alert('Vui lòng nhập đầy đủ thông tin');
+        return;
+      }
+
+      const diffTime = end - start;
+      const days = diffTime / (1000 * 60 * 60 * 24);
+
+      if (days <= 0) {
+        alert('Ngày kết thúc phải sau ngày bắt đầu');
+        return;
+      }
+
+      const interest = principal * rate * (days / 365);
+      const total = principal + interest;
+
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `
+        <b>Số ngày:</b> ${days.toFixed(0)} ngày<br>
+        <b>Tiền lãi:</b> ${interest.toLocaleString()} VNĐ<br>
+        <b>Tổng nhận:</b> ${total.toLocaleString()} VNĐ
+      `;
+    }
+  </script>
+</body>
+</html>
