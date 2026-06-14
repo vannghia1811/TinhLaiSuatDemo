@@ -90,8 +90,8 @@
         return;
       }
 
-      const diffTime = end - start;
-      const days = diffTime / (1000 * 60 * 60 * 24);
+    const diffTime = end - start;
+    const days = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
       if (days <= 0) {
         alert('Ngày kết thúc phải sau ngày bắt đầu');
